@@ -27,18 +27,20 @@ let forecastForInnerHTML = '';
 for(let i = 0; i <= weatherf.list.length-1; i++){
 const iconCodeF = weatherf.list[i].weather[0].icon;
 const iconImageUrlF = `http://openweathermap.org/img/w/${iconCodeF}.png`;
-const hourF = weatherf.list[i].dt_txt;
-const tempF = weatherf.list[i].weather[0].main.temp;
+//convertit UNIX time into normal time
+const hourF = new Date(weatherf.list[i].dt * 1000);
+const tempF = Math.round(weatherf.list[i].main.temp);
 const descriptionF = weatherf.list[i].weather[0].description;
-// console.log(iconCodeF); folosit pt testari
+console.log(iconCodeF); //folosit pt testari
 forecastForInnerHTML += `
-<div>
+<div class="weather-card-container">
                 <img src=${iconImageUrlF} />
-                <p>Ora: ${hourF}</p>
+                
+                <p>Ora: ${hourF.toLocaleTimeString("default")}</p>
                 <p>Descriere: ${descriptionF}</p>
                 <p>Temp curenta: ${tempF} °C</p>
 </div>`
-// console.log(forecastForInnerHTML);
+console.log(forecastForInnerHTML);
 }
 weatherForecastContainer.innerHTML = forecastForInnerHTML; 
 
@@ -50,6 +52,8 @@ weatherForecastContainer.innerHTML = forecastForInnerHTML;
 // <p>Temp curenta: ${Math.round(weather.main.temp)}°C</p>
 // </div>`
 }
+
+
 
 async function showWeather(){
 const city = cityInput.value;
